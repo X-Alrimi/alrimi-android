@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "863854915984",
+    "project_id": "x-alrimi-18ab1",
+    "storage_bucket": "x-alrimi-18ab1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863854915984:android:db3a609ea82969fd22c315",
+        "android_client_info": {
+          "package_name": "com.example.capstone2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863854915984-bcur3el83780kmeol71on2e9pe36kbnv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.capstone2",
+            "certificate_hash": "f4d5fd574394f1c7bcc83ff2d7c3ddf227f52db4"
+          }
+        },
+        {
+          "client_id": "863854915984-37ovn4srukksm07o17irkiimi770845a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAafMhHmQl-VNc436WIkm38TnWNUj5qHAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863854915984-37ovn4srukksm07o17irkiimi770845a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
