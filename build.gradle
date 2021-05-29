@@ -4,6 +4,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        // 빌드 오류 수정 : could not find ~
+        mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.3"
