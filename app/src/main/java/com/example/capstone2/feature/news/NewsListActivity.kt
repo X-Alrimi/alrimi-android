@@ -7,9 +7,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.capstone2.R
+import com.example.capstone2.core.Consts
 import com.example.capstone2.core.model.News
 import com.example.capstone2.databinding.ActivityNewsListBinding
-import timber.log.Timber
+import com.example.capstone2.feature.notification.NotificationListActivity
+import com.example.capstone2.feature.stock.StockGraphActivity
 import java.sql.Date
 
 class NewsListActivity: AppCompatActivity() {
@@ -29,7 +31,7 @@ class NewsListActivity: AppCompatActivity() {
         mBinding.vm = viewModel
 
         // 종목 이름 넘겨받기
-        val name = intent.getStringExtra("name")
+        val name = intent.getStringExtra(Consts.EXTRA_NAME)
         viewModel.stockName.value = name
     }
 
@@ -44,8 +46,20 @@ class NewsListActivity: AppCompatActivity() {
 
         viewModel.onClickedLinkCallback.observe(this, Observer {
             var intent = Intent(this, NewsWebViewActivity::class.java)
-            intent.putExtra("url", viewModel.curNews.link)
-            intent.putExtra("name", viewModel.stockName.value)
+            intent.putExtra(Consts.EXTRA_LINK, viewModel.curNews.link)
+            intent.putExtra(Consts.EXTRA_NAME, viewModel.stockName.value)
+            startActivity(intent)
+        })
+
+        viewModel.onClickedNotificationListCallback.observe(this, Observer {
+            var intent = Intent(this, NotificationListActivity::class.java)
+            intent.putExtra(Consts.EXTRA_NAME, viewModel.stockName.value)
+            startActivity(intent)
+        })
+
+        viewModel.onClickedGraphCallback.observe(this, Observer {
+            var intent = Intent(this, StockGraphActivity::class.java)
+            intent.putExtra(Consts.EXTRA_GRAPH, "https://finance.naver.com/item/main.nhn?code=122870")
             startActivity(intent)
         })
     }

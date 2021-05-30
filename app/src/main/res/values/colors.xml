@@ -11,4 +11,5 @@
     <color name="background_black">#3A3A3A</color>
     <color name="gold">#FFDA48</color>
     <color name="gray">#D2D2D2</color>
+    <color name="warning_red">#FF5252</color>
 </resources>

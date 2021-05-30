@@ -24,9 +24,11 @@
         <activity android:name=".feature.stock.StockListActivity"/>
         <activity android:name=".feature.news.NewsListActivity"/>
         <activity android:name=".feature.news.NewsWebViewActivity"/>
+        <activity android:name=".feature.notification.NotificationListActivity"/>
+        <activity android:name=".feature.stock.StockGraphActivity"/>
 
         <service
-            android:name=".feature.push.EntFirebaseMessagingService"
+            android:name=".feature.notification.EntFirebaseMessagingService"
             android:exported="false"
             android:directBootAware="true">
             <intent-filter>

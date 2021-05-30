@@ -1,4 +1,4 @@
-package com.example.capstone2.feature.push
+package com.example.capstone2.feature.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,7 +10,8 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.capstone2.R
-import com.example.capstone2.feature.main.MainActivity
+import com.example.capstone2.core.Consts
+import com.example.capstone2.feature.news.NewsWebViewActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.math.abs
@@ -37,17 +38,19 @@ class EntFirebaseMessagingService : FirebaseMessagingService() {
             // 데이터 맵핑하기
             val title = data["title"]
             val body = data["body"]
+            val link = data["link"]
 
             // 알림 생성
-            sendNotification(title, body)
+            sendNotification(title, body, link)
         }
     }
 
     // 알림 생성
-    private fun sendNotification(title : String?, body : String?) {
+    private fun sendNotification(title : String?, body : String?, link: String?) {
         // 푸시 알림 클릭시 intent 정보
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, NewsWebViewActivity::class.java)
         intent.apply {
+            putExtra(Consts.EXTRA_LINK, link)
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         var pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)

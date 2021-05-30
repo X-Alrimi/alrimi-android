@@ -1,4 +1,4 @@
-package com.example.capstone2.feature.news
+package com.example.capstone2.feature.stock
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -12,21 +12,21 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.capstone2.R
 import com.example.capstone2.core.Consts
-import kotlinx.android.synthetic.main.activity_news_web_view.*
+import kotlinx.android.synthetic.main.activity_stock_graph.*
 
-class NewsWebViewActivity: AppCompatActivity() {
+class StockGraphActivity: AppCompatActivity() {
 
     lateinit var webView: WebView
     lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_news_web_view)
+        setContentView(R.layout.activity_stock_graph)
 
-        webView = web_view_news
+        webView = web_view_graph
         textView = txt_no_internet
 
-        val url = intent.getStringExtra(Consts.EXTRA_LINK)
+        val url = intent.getStringExtra(Consts.EXTRA_GRAPH)
 
         webView.apply {
             // 인터넷 연결 체크
@@ -35,17 +35,15 @@ class NewsWebViewActivity: AppCompatActivity() {
                 textView.visibility = View.VISIBLE
             }
             else {
-                webView.apply {
-                    // 새 창이 뜨지 않도록 방지
-                    webViewClient = WebViewClient()
-                    webChromeClient = WebChromeClient()
+                // 새 창이 뜨지 않도록 방지
+                webViewClient = WebViewClient()
+                webChromeClient = WebChromeClient()
 
-                    settings.javaScriptEnabled = true // 자바 스크립트 허용
-                    settings.setSupportZoom(true) // 화면 줌 허용
-                    settings.builtInZoomControls = true // 화면 확대 축소 허용
+                settings.javaScriptEnabled = true // 자바 스크립트 허용
+                settings.setSupportZoom(true) // 화면 줌 허용
+                settings.builtInZoomControls = true // 화면 확대 축소 허용
 
-                    loadUrl(url)
-                }
+                loadUrl(url)
             }
         }
     }

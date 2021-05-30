@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt' // glide, Annotation 프로세싱 등...
+    id 'kotlin-android-extensions' // kotlinx 플러그인 추가
 }
 
 android {

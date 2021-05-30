@@ -16,6 +16,8 @@ class NewsListViewModel @Inject constructor(application: Application): AndroidVi
 
     val onClickedBackCallback: SingleLiveEvent<Void> = SingleLiveEvent()
     val onClickedLinkCallback: SingleLiveEvent<Void> = SingleLiveEvent()
+    val onClickedNotificationListCallback: SingleLiveEvent<Void> = SingleLiveEvent()
+    val onClickedGraphCallback: SingleLiveEvent<Void> = SingleLiveEvent()
 
     lateinit var curNews: News
 
@@ -34,5 +36,13 @@ class NewsListViewModel @Inject constructor(application: Application): AndroidVi
     fun onClickedLink(news: News) {
         curNews = news
         onClickedLinkCallback.call()
+    }
+
+    fun onClickedNotificationList(view: View) {
+        onClickedNotificationListCallback.call()
+    }
+
+    fun onClickedGraph(view: View) {
+        onClickedGraphCallback.call()
     }
 }
