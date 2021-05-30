@@ -44,7 +44,7 @@ class NewsListActivity: AppCompatActivity() {
 
         viewModel.onClickedLinkCallback.observe(this, Observer {
             var intent = Intent(this, NewsWebViewActivity::class.java)
-            intent.putExtra("link", viewModel.curNews.link)
+            intent.putExtra("url", viewModel.curNews.link)
             intent.putExtra("name", viewModel.stockName.value)
             startActivity(intent)
         })

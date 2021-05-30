@@ -16,7 +16,6 @@ import com.example.capstone2.R
 class NewsWebViewActivity: AppCompatActivity() {
 
     lateinit var webView: WebView
-    lateinit var progressBar: ProgressBar
     lateinit var textView: TextView
 
     companion object {
@@ -28,7 +27,6 @@ class NewsWebViewActivity: AppCompatActivity() {
         setContentView(R.layout.activity_news_web_view)
 
         webView = findViewById(R.id.web_view_news)
-        progressBar = findViewById(R.id.progress_news)
         textView = findViewById(R.id.txt_no_internet)
 
         val url = intent.getStringExtra(EXTRA_URL)
@@ -37,12 +35,14 @@ class NewsWebViewActivity: AppCompatActivity() {
             // 인터넷 연결 체크
             if(!getNetworkConnected(applicationContext)) {
                 webView.visibility = View.GONE
-                progressBar.visibility = View.GONE
                 textView.visibility = View.VISIBLE
             }
             else {
                 webView.apply {
                     settings.javaScriptEnabled = true // 자바 스크립트 허용
+                    settings.setSupportZoom(true) // 화면 줌 허용
+                    settings.builtInZoomControls = true // 화면 확대 축소 허용
+
 
                     // 새 창이 뜨지 않도록 방지
                     webViewClient = WebViewClient()
@@ -55,6 +55,7 @@ class NewsWebViewActivity: AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        // 뒤로가기가 가능하면 뒤로가기, 더 뒤로갈 페이지가 없으면 액티비티 종료
         if (webView.canGoBack()) {
             webView.goBack()
         } else {
