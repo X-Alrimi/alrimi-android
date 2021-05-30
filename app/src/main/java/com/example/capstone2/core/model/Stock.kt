@@ -1,5 +1,8 @@
 package com.example.capstone2.core.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class Stock (
-        var name: String
+        @JsonProperty("id") var id: Long,
+        @JsonProperty("name") var name: String
         )
