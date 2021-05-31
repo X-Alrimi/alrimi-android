@@ -26,7 +26,7 @@ class StockGraphActivity: AppCompatActivity() {
         webView = web_view_graph
         textView = txt_no_internet
 
-        val url = intent.getStringExtra(Consts.EXTRA_GRAPH)
+        val url = intent.getStringExtra(Consts.STOCK_GRAPH)
 
         webView.apply {
             // 인터넷 연결 체크

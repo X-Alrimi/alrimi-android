@@ -1,18 +1,33 @@
 package com.example.capstone2.feature.news
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import com.example.capstone2.core.Retrofit
 import com.example.capstone2.core.model.News
+import com.example.capstone2.core.usecase.GetNewsUsecase
 import com.example.capstone2.feature.mvvm.SingleLiveEvent
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class NewsListViewModel @Inject constructor(application: Application): AndroidViewModel(application) {
-    var stockName: MutableLiveData<String> = MutableLiveData()
+    private val getNewsUsecase = GetNewsUsecase(Retrofit)
+
+    var stockName: SingleLiveEvent<String> = SingleLiveEvent()
+    var stockId: Long = -1
+    var newsList: SingleLiveEvent<ArrayList<News>> = SingleLiveEvent()
+    var currentPage: Int = 1
+    var totalPage: Int = 0
+    init {
+        newsList.value = ArrayList()
+    }
 
     val onClickedBackCallback: SingleLiveEvent<Void> = SingleLiveEvent()
     val onClickedLinkCallback: SingleLiveEvent<Void> = SingleLiveEvent()
@@ -44,5 +59,22 @@ class NewsListViewModel @Inject constructor(application: Application): AndroidVi
 
     fun onClickedGraph(view: View) {
         onClickedGraphCallback.call()
+    }
+
+    @SuppressLint("CheckResult")
+    fun getNews(companyId: Long, page: Int) {
+        getNewsUsecase.getNews(companyId, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    Timber.d("get news")
+
+                    if(newsList.value!!.isEmpty()) newsList.value = response.data.news
+                    else newsList.value!!.addAll(response.data.news)
+                    totalPage = response.data.totalPage
+                    currentPage++
+                }, { e ->
+                    Timber.e("error message : ${e.localizedMessage}")
+                })
     }
 }

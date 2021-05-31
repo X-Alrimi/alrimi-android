@@ -26,7 +26,7 @@ class NewsWebViewActivity: AppCompatActivity() {
         webView = web_view_news
         textView = txt_no_internet
 
-        val url = intent.getStringExtra(Consts.EXTRA_LINK)
+        val url = intent.getStringExtra(Consts.NEWS_LINK)
 
         webView.apply {
             // 인터넷 연결 체크

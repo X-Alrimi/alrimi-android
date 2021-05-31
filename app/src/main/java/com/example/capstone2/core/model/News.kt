@@ -3,7 +3,7 @@ package com.example.capstone2.core.model
 import java.util.Date
 
 data class News (
-        var title: String,
+        var createdAt: Date,
         var link: String,
-        var createdAt: Date
+        var title: String
         )
