@@ -23,7 +23,6 @@ class NewsListActivity: AppCompatActivity() {
         setUpDataBinding()
         observeViewModel()
         viewModel.getNews(viewModel.stockId, viewModel.currentPage)
-        //initRecyclerView()
     }
 
     private fun setUpDataBinding() {
@@ -56,12 +55,13 @@ class NewsListActivity: AppCompatActivity() {
         viewModel.onClickedNotificationListCallback.observe(this, Observer {
             var intent = Intent(this, NotificationListActivity::class.java)
             intent.putExtra(Consts.STOCK_NAME, viewModel.stockName.value)
+            intent.putExtra(Consts.STOCK_ID, viewModel.stockId)
             startActivity(intent)
         })
 
         viewModel.onClickedGraphCallback.observe(this, Observer {
             var intent = Intent(this, StockGraphActivity::class.java)
-            intent.putExtra(Consts.STOCK_GRAPH, "https://finance.naver.com/item/main.nhn?code=122870")
+            intent.putExtra(Consts.STOCK_GRAPH, Consts.getGraphLink(viewModel.stockId))
             startActivity(intent)
         })
 
@@ -71,17 +71,6 @@ class NewsListActivity: AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        // 더미 데이터
-//        var tmp = ArrayList<News>()
-//        tmp.add(News("한류스타 김태준 여자친구 생겨... \"충격\"ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ", "https://www.naver.com", Date(System.currentTimeMillis())))
-//        tmp.add(News("한류스타 김태준", "https://entertain.naver.com/read?oid=005&aid=0001177800", Date(System.currentTimeMillis())))
-//        tmp.add(News("한류스타 김태준 여자친구 생겨... \"충격\"", "https://entertain.naver.com/read?oid=112&aid=0003344355", Date(System.currentTimeMillis())))
-//        tmp.add(News("한류스타 김태준 여자친구 생겨... \"충격\"", "www.love.com", Date(System.currentTimeMillis())))
-//        tmp.add(News("한류스타 김태준 여자친구 생겨... \"충격\"", "www.love.com", Date(System.currentTimeMillis())))
-//        tmp.add(News("한류스타 김태준 여자친구 생겨... \"충격\"", "www.love.com", Date(System.currentTimeMillis())))
-//        tmp.add(News("한류스타 김태준 여자친구 생겨... \"충격\"", "www.love.com", Date(System.currentTimeMillis())))
-//        tmp.add(News("한류스타 김태준 여자친구 생겨... \"충격\"", "www.love.com", Date(System.currentTimeMillis())))
-
         val adapter = NewsListRecyclerAdapter(viewModel.newsList.value!!, viewModel)
         mBinding.rvNews.apply {
             this.adapter = adapter
