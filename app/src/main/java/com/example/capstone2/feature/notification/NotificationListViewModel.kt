@@ -24,21 +24,24 @@ class NotificationListViewModel @Inject constructor(application: Application): A
     var notificationList: SingleLiveEvent<ArrayList<Notification>> = SingleLiveEvent()
     var currentPage: Int = 1
     var totalPage: Int = 0
+    lateinit var more: ArrayList<Notification>
     init {
         notificationList.value = ArrayList()
     }
 
     val onClickedBackCallback: SingleLiveEvent<Void> = SingleLiveEvent()
     val onClickedNotificationCallback: SingleLiveEvent<Void> = SingleLiveEvent()
+    val moreNotificationCallback: SingleLiveEvent<Void> = SingleLiveEvent()
 
     lateinit var curNotification: Notification
 
+    @SuppressLint("SimpleDateFormat", "WeekBasedYear")
     fun setCreatedAt(notification: Notification): String {
         val cal = Calendar.getInstance()
         cal.time = notification.createdAt
         val df: DateFormat = SimpleDateFormat("YYYY/MM/dd HH:mm")
 
-        return "${df.format(cal.time)}"
+        return df.format(cal.time)
     }
 
     fun onClickedNotification(notification: Notification) {
@@ -58,7 +61,11 @@ class NotificationListViewModel @Inject constructor(application: Application): A
                 .subscribe({ response ->
                     Timber.d("get critical news")
                     if(notificationList.value!!.isEmpty()) notificationList.value = response.data.news
-                    else notificationList.value!!.addAll(response.data.news)
+                    else {
+                        more = response.data.news
+                        notificationList.value!!.addAll(more)
+                        moreNotificationCallback.call()
+                    }
                     totalPage = response.data.totalPage
                     currentPage++
                 }, { e ->

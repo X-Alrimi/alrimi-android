@@ -13,10 +13,12 @@ import com.example.capstone2.core.Consts
 import com.example.capstone2.databinding.ActivityNewsListBinding
 import com.example.capstone2.feature.notification.NotificationListActivity
 import com.example.capstone2.feature.stock.StockGraphActivity
+import timber.log.Timber
 
 class NewsListActivity: AppCompatActivity() {
     private lateinit var viewModel: NewsListViewModel
     private lateinit var mBinding: ActivityNewsListBinding
+    private lateinit var mAdapter: NewsListRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,42 +49,49 @@ class NewsListActivity: AppCompatActivity() {
         })
 
         viewModel.onClickedLinkCallback.observe(this, Observer {
-            var intent = Intent(this, NewsWebViewActivity::class.java)
+            val intent = Intent(this, NewsWebViewActivity::class.java)
             intent.putExtra(Consts.NEWS_LINK, viewModel.curNews.link)
             startActivity(intent)
         })
 
         viewModel.onClickedNotificationListCallback.observe(this, Observer {
-            var intent = Intent(this, NotificationListActivity::class.java)
+            val intent = Intent(this, NotificationListActivity::class.java)
             intent.putExtra(Consts.STOCK_NAME, viewModel.stockName.value)
             intent.putExtra(Consts.STOCK_ID, viewModel.stockId)
             startActivity(intent)
         })
 
         viewModel.onClickedGraphCallback.observe(this, Observer {
-            var intent = Intent(this, StockGraphActivity::class.java)
+            val intent = Intent(this, StockGraphActivity::class.java)
             intent.putExtra(Consts.STOCK_GRAPH, Consts.getGraphLink(viewModel.stockId))
             startActivity(intent)
         })
 
         viewModel.newsList.observe(this, Observer {
-            initRecyclerView()
+            Timber.d("list count : ${viewModel.newsList.value!!.size}\nnews list : ${viewModel.newsList.value}")
+            if(viewModel.newsList.value!!.isNotEmpty()) initRecyclerView()
+        })
+
+        viewModel.moreNewsCallback.observe(this, Observer {
+            mAdapter.addNews()
         })
     }
 
     private fun initRecyclerView() {
-        val adapter = NewsListRecyclerAdapter(viewModel.newsList.value!!, viewModel)
+        Timber.d("init recycler")
+        mAdapter = NewsListRecyclerAdapter(viewModel.newsList.value!!, viewModel)
         mBinding.rvNews.apply {
-            this.adapter = adapter
+            this.adapter = mAdapter
         }
 
+        // 페이징 처리
         mBinding.rvNews.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val lastVisibleItemPosition = (mBinding.rvNews.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 val itemTotalCount = mBinding.rvNews.adapter?.itemCount
-                if(lastVisibleItemPosition == itemTotalCount && viewModel.totalPage >= viewModel.currentPage) {
+                if(lastVisibleItemPosition == itemTotalCount!!-1 && viewModel.totalPage >= viewModel.currentPage) {
                     viewModel.getNews(viewModel.stockId, viewModel.currentPage)
                 }
             }

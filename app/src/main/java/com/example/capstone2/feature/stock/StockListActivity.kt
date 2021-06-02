@@ -22,7 +22,6 @@ class StockListActivity: AppCompatActivity() {
         setUpDataBinding()
         observeViewModel()
         viewModel.getStockList()
-        //initRecyclerView()
     }
 
     private fun setUpDataBinding() {
@@ -33,7 +32,7 @@ class StockListActivity: AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.onClickedStockCallback.observe(this, Observer {
-            var intent = Intent(this, NewsListActivity::class.java)
+            val intent = Intent(this, NewsListActivity::class.java)
             intent.putExtra(Consts.STOCK_NAME, viewModel.curStock.name)
             intent.putExtra(Consts.STOCK_ID, viewModel.curStock.id)
             startActivity(intent)
@@ -49,21 +48,6 @@ class StockListActivity: AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        // 더미 데이터
-//        var tmp : ArrayList<Stock> = ArrayList()
-//        tmp.add(Stock(1, "YG Entertainment"))
-//        tmp.add(Stock(2, "JYP Entertainment"))
-//        tmp.add(Stock(3,"FNC Entertainment"))
-//        tmp.add(Stock(4, "StarShip Entertainment"))
-//        tmp.add(Stock(5, "YG Entertainment"))
-//        tmp.add(Stock(6, "JYP Entertainment"))
-//        tmp.add(Stock(7, "FNC Entertainment"))
-//        tmp.add(Stock(8, "StarShip Entertainment"))
-//        tmp.add(Stock(9, "YG Entertainment"))
-//        tmp.add(Stock(10, "JYP Entertainment"))
-//        tmp.add(Stock(11, "FNC Entertainment"))
-//        tmp.add(Stock(12, "StarShip Entertainment"))
-
         Timber.d("stock: ${viewModel.stockList.value}")
         val adapter = StockListRecyclerAdapter(viewModel.stockList.value!!, viewModel)
         mBinding.rvStock.apply {

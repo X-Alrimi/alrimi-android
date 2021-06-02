@@ -9,6 +9,12 @@ import com.example.capstone2.databinding.ItemNotificationBinding
 class NotificationRecyclerAdapter(var notifications: ArrayList<Notification>,
                                     val viewModel: NotificationListViewModel): RecyclerView.Adapter<NotificationRecyclerAdapter.NotificationViewHolder>() {
     private lateinit var mBinding: ItemNotificationBinding
+
+    fun addNotification() {
+        this.notifications.addAll(viewModel.more)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         mBinding = ItemNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NotificationViewHolder(mBinding)

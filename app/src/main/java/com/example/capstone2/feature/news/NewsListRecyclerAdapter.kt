@@ -9,6 +9,12 @@ import com.example.capstone2.databinding.ItemNewsBinding
 class NewsListRecyclerAdapter(var news: ArrayList<News>,
                                 val viewModel: NewsListViewModel): RecyclerView.Adapter<NewsListRecyclerAdapter.NewsViewHolder>() {
     private lateinit var mBinding: ItemNewsBinding
+
+    fun addNews() {
+        this.news.addAll(viewModel.more)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         mBinding = ItemNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NewsViewHolder(mBinding)

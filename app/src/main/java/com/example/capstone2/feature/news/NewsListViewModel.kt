@@ -25,6 +25,7 @@ class NewsListViewModel @Inject constructor(application: Application): AndroidVi
     var newsList: SingleLiveEvent<ArrayList<News>> = SingleLiveEvent()
     var currentPage: Int = 1
     var totalPage: Int = 0
+    lateinit var more: ArrayList<News>
     init {
         newsList.value = ArrayList()
     }
@@ -33,15 +34,17 @@ class NewsListViewModel @Inject constructor(application: Application): AndroidVi
     val onClickedLinkCallback: SingleLiveEvent<Void> = SingleLiveEvent()
     val onClickedNotificationListCallback: SingleLiveEvent<Void> = SingleLiveEvent()
     val onClickedGraphCallback: SingleLiveEvent<Void> = SingleLiveEvent()
+    val moreNewsCallback: SingleLiveEvent<Void> = SingleLiveEvent()
 
     lateinit var curNews: News
 
+    @SuppressLint("SimpleDateFormat", "WeekBasedYear")
     fun setCreatedAt(news: News): String {
         val cal = Calendar.getInstance()
         cal.time = news.createdAt
         val df: DateFormat = SimpleDateFormat("YYYY/MM/dd HH:mm")
 
-        return "${df.format(cal.time)}"
+        return df.format(cal.time)
     }
 
     fun onClickedBack(view: View) {
@@ -70,7 +73,12 @@ class NewsListViewModel @Inject constructor(application: Application): AndroidVi
                     Timber.d("get news")
 
                     if(newsList.value!!.isEmpty()) newsList.value = response.data.news
-                    else newsList.value!!.addAll(response.data.news)
+                    else {
+                        more = response.data.news
+                        newsList.value!!.addAll(more)
+                        moreNewsCallback.call()
+                    }
+                    Timber.d("news list count : ${newsList.value!!.size}")
                     totalPage = response.data.totalPage
                     currentPage++
                 }, { e ->

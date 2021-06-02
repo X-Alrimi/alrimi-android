@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone2.R
 import com.example.capstone2.core.Consts
 import com.example.capstone2.databinding.ActivityNotificationListBinding
@@ -16,6 +18,7 @@ import com.example.capstone2.feature.news.NewsWebViewActivity
 class NotificationListActivity: AppCompatActivity() {
     private lateinit var viewModel: NotificationListViewModel
     private lateinit var mBinding: ActivityNotificationListBinding
+    private lateinit var mAdapter: NotificationRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +55,11 @@ class NotificationListActivity: AppCompatActivity() {
         })
 
         viewModel.notificationList.observe(this, Observer {
-            initRecyclerView()
+            if(viewModel.notificationList.value!!.isNotEmpty()) initRecyclerView()
+        })
+
+        viewModel.moreNotificationCallback.observe(this, Observer {
+            mAdapter.addNotification()
         })
     }
 
@@ -60,15 +67,15 @@ class NotificationListActivity: AppCompatActivity() {
     private fun initRecyclerView() {
         // Swipe Event
 //        val swipeHelperCallback = SwipeHelperCallback().apply {
-//            setClamp(dpToPx(applicationContext, 90f))
+//            setClamp(dpToPx(applicationContext, 110f))
 //        }
-        val adapter = NotificationRecyclerAdapter(viewModel.notificationList.value!!, viewModel)
+        mAdapter = NotificationRecyclerAdapter(viewModel.notificationList.value!!, viewModel)
 
         // Swipe Event
 //        val itemTouchHelper = ItemTouchHelper(swipeHelperCallback)
 //        itemTouchHelper.attachToRecyclerView(mBinding.rvNotification)
         mBinding.rvNotification.apply {
-            this.adapter = adapter
+            this.adapter = mAdapter
 
             // Swipe Event
 //            setOnTouchListener { _, _ ->
@@ -76,5 +83,18 @@ class NotificationListActivity: AppCompatActivity() {
 //                false
 //            }
         }
+
+        // 페이징 처리
+        mBinding.rvNotification.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition = (mBinding.rvNotification.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val itemTotalCount = mBinding.rvNotification.adapter?.itemCount
+                if(lastVisibleItemPosition == itemTotalCount!!-1 && viewModel.totalPage >= viewModel.currentPage) {
+                    viewModel.getCriticalNews(viewModel.stockId, viewModel.currentPage)
+                }
+            }
+        })
     }
 }

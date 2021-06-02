@@ -9,6 +9,6 @@ interface NewsService {
     @GET("news")
     fun getNews(@Query("companyId") companyId: Long, @Query("page") page: Int): Observable<NewsResponse>
 
-    @GET("news/critial")
+    @GET("news/critical")
     fun getCriticalNews(@Query("companyId") companyId: Long, @Query("page") page: Int): Observable<NotificationResponse>
 }
