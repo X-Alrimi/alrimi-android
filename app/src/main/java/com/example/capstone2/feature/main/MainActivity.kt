@@ -14,6 +14,8 @@ import com.example.capstone2.core.dto.PostFcmToken
 import com.example.capstone2.databinding.ActivityMainBinding
 import com.example.capstone2.feature.stock.StockListActivity
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import timber.log.Timber
 
