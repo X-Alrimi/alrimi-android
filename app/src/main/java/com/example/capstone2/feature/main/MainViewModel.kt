@@ -21,6 +21,8 @@ class MainViewModel @Inject constructor(application: Application) : AndroidViewM
 
     val onClickedStartButton: SingleLiveEvent<Void> = SingleLiveEvent()
 
+    var token = "";
+
     fun goToStockList(view: View) {
         onClickedStartButton.call()
     }

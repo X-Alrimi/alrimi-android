@@ -14,7 +14,7 @@ class Consts {
         const val SF_TOKEN = "token"
 
         // base url
-        const val BASE_URL = "http://ec2-18-218-1-49.us-east-2.compute.amazonaws.com:8080/"
+        const val BASE_URL = "http://ec2-18-218-1-49.us-east-2.compute.amazonaws.com/"
 
         // stock graph link
         private const val YG_GRAPH = "https://finance.naver.com/item/main.nhn?code=122870"

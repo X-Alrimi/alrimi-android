@@ -1,8 +1,8 @@
 package com.example.capstone2.core.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class Stock (
-        var id: Long,
-        var name: String
+        @SerializedName("id") var id: Long,
+        @SerializedName("name") var name: String
         )

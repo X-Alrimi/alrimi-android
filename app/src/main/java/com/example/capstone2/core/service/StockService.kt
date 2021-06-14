@@ -9,7 +9,4 @@ import retrofit2.http.Path
 interface StockService {
     @GET("companies")
     fun getStockList(): Observable<StockListResponse>
-
-    @GET("companies/{id}")
-    fun getStock(@Path("id") stockId: Long): Observable<StockResponse>
 }

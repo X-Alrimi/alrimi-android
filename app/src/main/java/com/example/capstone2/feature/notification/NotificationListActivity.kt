@@ -49,8 +49,8 @@ class NotificationListActivity: AppCompatActivity() {
         })
 
         viewModel.onClickedNotificationCallback.observe(this, Observer {
-            var intent = Intent(this, NewsWebViewActivity::class.java)
-            intent.putExtra("link", viewModel.curNotification.link)
+            val intent = Intent(this, NewsWebViewActivity::class.java)
+            intent.putExtra(Consts.NEWS_LINK, viewModel.curNotification.link)
             startActivity(intent)
         })
 

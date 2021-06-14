@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.capstone2.R
 import com.example.capstone2.core.Consts
+import com.example.capstone2.core.dto.KeywordDto
 import com.example.capstone2.databinding.ActivityStockListBinding
 import com.example.capstone2.feature.news.NewsListActivity
 import timber.log.Timber
@@ -21,7 +22,13 @@ class StockListActivity: AppCompatActivity() {
 
         setUpDataBinding()
         observeViewModel()
+        viewModel.token = intent.getStringExtra(Consts.SF_TOKEN)
+        Timber.d("token : ${viewModel.token}")
         viewModel.getStockList()
+
+        // 시험용
+        viewModel.addKeyword(KeywordDto(viewModel.token, "YG"))
+//        viewModel.deleteKeyword(KeywordDto(token, "YG"))
     }
 
     private fun setUpDataBinding() {

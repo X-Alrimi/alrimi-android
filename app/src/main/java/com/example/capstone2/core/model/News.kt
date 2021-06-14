@@ -1,9 +1,10 @@
 package com.example.capstone2.core.model
 
+import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class News (
-        var createdAt: Date,
-        var link: String,
-        var title: String
+        @SerializedName("title") var title: String,
+        @SerializedName("link") var link: String,
+        @SerializedName("createdAt") var createdAt: Date
         )

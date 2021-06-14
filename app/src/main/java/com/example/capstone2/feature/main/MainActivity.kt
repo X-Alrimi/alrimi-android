@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.capstone2.BaseApplication
 import com.example.capstone2.R
+import com.example.capstone2.core.Consts
 import com.example.capstone2.core.dto.DeleteFcmToken
 import com.example.capstone2.core.dto.PostFcmToken
 import com.example.capstone2.databinding.ActivityMainBinding
@@ -51,6 +52,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             Timber.d("token : $token\n beforeToken : $beforeToken")
+
+            viewModel.token = token
         })
     }
 
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.onClickedStartButton.observe(this, Observer {
             val intent = Intent(this, StockListActivity::class.java)
+            intent.putExtra(Consts.SF_TOKEN, viewModel.token)
             startActivity(intent)
         })
     }

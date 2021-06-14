@@ -1,7 +1,8 @@
 package com.example.capstone2.core.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class PostFcmToken(
-        val token: String
+        @SerializedName("token") val token: String
 )
